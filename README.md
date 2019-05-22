@@ -4,7 +4,6 @@
 모바일웹에서 앱을 실행하거나 스토어로 이동시킵니다.
 
 ## Demo
-- 테스트를 위해showdownjs와 markedjs 라이브러리를 이용하여 마크다운문법을 표시하는 샘플을 만들어 보았습니다.
 - 뭐 혹시라도 궁금한점은 softm@nate.com으로 메일 주시면 답변드리겠습니다.
 
 1. [appsorerun](http://softm.net/appchecker.html)

@@ -8,10 +8,77 @@
 
 1. [appsorerun](http://softm.net/appchecker.html)
 
-Usage
------
+## Usage
+#### 메인코드
 ```html
 <script type="text/javascript">
+/**
+*
+* AppChecker.init(
+*     "hancapMobile"
+*   , "hancap"
+*   , "kr.co.hankookcapital.m"
+*   , "market://details?id="+this.packageName+"&hl=ko&rdid="+this.packageName
+*   , "https://itunes.apple.com/kr/app/%ED%95%9C%EA%B5%AD%EC%BA%90%ED%94%BC%ED%83%88-%EB%AA%A8%EB%B0%94%EC%9D%BC/id1358958350?mt=8"
+*   , "/ib20/mnu/HKMCOM050000"
+*   , "MGPay"
+* );
+*
+* //AppChecker.runApp(false,"http://www.naver.com");
+    window.onload = function() {
+        document.getElementById("btnExec1").addEventListener("click",function() {
+            var data = JSON.stringify({ "header":{ "api":"125" } , "body":{ "url":"http://www.naver.com"} });
+            AppChecker.init(
+                "hancapMobile"
+              , "hancap"
+              , "kr.co.hankookcapital.m"
+              , "market://details?id="+"kr.co.hankookcapital.m"+"&hl=ko&rdid="+"kr.co.hankookcapital.m"
+              , "https://itunes.apple.com/kr/app/%ED%95%9C%EA%B5%AD%EC%BA%90%ED%94%BC%ED%83%88-%EB%AA%A8%EB%B0%94%EC%9D%BC/id1358958350?mt=8"
+              , "/fail"
+              , "MGPay"
+            ).runApp(data);
+        });
+
+        document.getElementById("btnExec2").addEventListener("click",function() {
+            var data = JSON.stringify({ "header":{ "api":"125" } , "body":{ "url":"http://www.naver.com"} });
+            AppChecker.init(
+                "hancapMobile"
+              , "hancap"
+              , "kr.co.hankookcapital.m"
+              , "market://details?id="+"kr.co.hankookcapital.m"+"&hl=ko&rdid="+"kr.co.hankookcapital.m"
+              , "https://itunes.apple.com/kr/app/%ED%95%9C%EA%B5%AD%EC%BA%90%ED%94%BC%ED%83%88-%EB%AA%A8%EB%B0%94%EC%9D%BC/id1358958350?mt=8"
+              , "/fail"
+              , "MGPay"
+            ).runStore(data);
+        });
+
+        document.getElementById("btnExec3").addEventListener("click",function() {
+            var data = "cmd=move_to&id=web&url=/mquics?page=C052213";
+            AppChecker.init(
+                "kbbank"
+              , "call"
+              , "com.kbstar.kbbank"
+              , "market://details?id="+"com.kbstar.kbbank"+"&hl=ko&rdid="+"com.kbstar.kbbank"
+              , "https://itunes.apple.com/kr/app/kbseutabaengking/id373742138?mt=8"
+              , "/fail"
+              , "MGPay"
+            ).runApp(data);
+        });
+
+        document.getElementById("btnExec4").addEventListener("click",function() {
+            var data = "cmd=move_to&id=web&url=/mquics?page=C052213";
+            AppChecker.init(
+                "kbbank"
+              , "call"
+              , "com.kbstar.kbbank"
+              , "market://details?id="+"com.kbstar.kbbank"+"&hl=ko&rdid="+"com.kbstar.kbbank"
+              , "https://itunes.apple.com/kr/app/kbseutabaengking/id373742138?mt=8"
+              , "/fail"
+              , "MGPay"
+            ).runStore(data);
+        });
+    }
+**/
 var AppChecker = {
     urlSchemeName:null,
     urlHostName:null,
@@ -28,6 +95,7 @@ var AppChecker = {
         this.appleMarketUrl  = appleMarketUrl ;
         this.fallbackUrl     = fallbackUrl    ;
         this.appUserAgent    = appUserAgent   ;
+        return this;
     },
     getAppType:function() {
         var phoneOS = "";
@@ -37,7 +105,7 @@ var AppChecker = {
             if((agent.match(re))){
                 if(agent.match(/IOS/i) || agent.match(/iPhone/i)){	// iOS
                     phoneOS = "I";
-                }				
+                }
                 else if(agent.match(/ANDROID/i)){	// Android
                     phoneOS = "A";
                 }
@@ -62,8 +130,7 @@ var AppChecker = {
         }
         return phoneOS;
     },
-
-    runApp:function(isRunApp,callBackUrl) {
+    run:function(isRunApp,callBackUrl) {
         this.runAppResult = callBackUrl?{ "header":{ "api":"125" } , "body":{ "url":callBackUrl} }:{ "header":{ "api":"125" } , "body":{ "url":""} };
         this.iosScheme = this.urlSchemeName+"" + "://?"+JSON.stringify(this.runAppResult);
         this.androidScheme = "intent://"+this.urlHostName+"?" + JSON.stringify(this.runAppResult) + "#Intent;scheme="+this.urlSchemeName+";end";
@@ -75,6 +142,12 @@ var AppChecker = {
         }else if(this.getAppType() == "MI") {
             this.is_installed_app_ios(isRunApp);
         }
+    },
+    runApp:function(callBackUrl) {
+        this.run(true,callBackUrl);
+    },
+    runStore:function(callBackUrl) {
+        this.run(false,callBackUrl);
     },
     is_installed_app_ios:function (isRunApp) {
         var clickedAt = +new Date;
@@ -195,64 +268,69 @@ var AppChecker = {
         location.href = storeUrl;
     }
 }
+<script>
+```
+#### 실행코드
+```html
+<script type="text/javascript">
 //AppChecker.runApp(false,"http://www.naver.com");
-window.onload = function() {
-    document.getElementById("btnExec1").addEventListener("click",function() {
-        var data = JSON.stringify({ "header":{ "api":"125" } , "body":{ "url":"http://www.naver.com"} });
-        AppChecker.init(
-            "hancapMobile"
-          , "hancap"
-          , "kr.co.hankookcapital.m"
-          , "market://details?id="+"kr.co.hankookcapital.m"+"&hl=ko&rdid="+"kr.co.hankookcapital.m"
-          , "https://itunes.apple.com/kr/app/%ED%95%9C%EA%B5%AD%EC%BA%90%ED%94%BC%ED%83%88-%EB%AA%A8%EB%B0%94%EC%9D%BC/id1358958350?mt=8"
-          , "/fail"
-          , "MGPay"
-        ).runApp(true,data);
-    });
+    window.onload = function() {
+        document.getElementById("btnExec1").addEventListener("click",function() {
+            var data = JSON.stringify({ "header":{ "api":"125" } , "body":{ "url":"http://www.naver.com"} });
+            AppChecker.init(
+                "hancapMobile"
+              , "hancap"
+              , "kr.co.hankookcapital.m"
+              , "market://details?id="+"kr.co.hankookcapital.m"+"&hl=ko&rdid="+"kr.co.hankookcapital.m"
+              , "https://itunes.apple.com/kr/app/%ED%95%9C%EA%B5%AD%EC%BA%90%ED%94%BC%ED%83%88-%EB%AA%A8%EB%B0%94%EC%9D%BC/id1358958350?mt=8"
+              , "/fail"
+              , "MGPay"
+            ).runApp(data);
+        });
 
-    document.getElementById("btnExec2").addEventListener("click",function() {
-        var data = JSON.stringify({ "header":{ "api":"125" } , "body":{ "url":"http://www.naver.com"} });
-        AppChecker.init(
-            "hancapMobile"
-          , "hancap"
-          , "kr.co.hankookcapital.m"
-          , "market://details?id="+"kr.co.hankookcapital.m"+"&hl=ko&rdid="+"kr.co.hankookcapital.m"
-          , "https://itunes.apple.com/kr/app/%ED%95%9C%EA%B5%AD%EC%BA%90%ED%94%BC%ED%83%88-%EB%AA%A8%EB%B0%94%EC%9D%BC/id1358958350?mt=8"
-          , "/fail"
-          , "MGPay"
-        ).runApp(false,data);
-    });
+        document.getElementById("btnExec2").addEventListener("click",function() {
+            var data = JSON.stringify({ "header":{ "api":"125" } , "body":{ "url":"http://www.naver.com"} });
+            AppChecker.init(
+                "hancapMobile"
+              , "hancap"
+              , "kr.co.hankookcapital.m"
+              , "market://details?id="+"kr.co.hankookcapital.m"+"&hl=ko&rdid="+"kr.co.hankookcapital.m"
+              , "https://itunes.apple.com/kr/app/%ED%95%9C%EA%B5%AD%EC%BA%90%ED%94%BC%ED%83%88-%EB%AA%A8%EB%B0%94%EC%9D%BC/id1358958350?mt=8"
+              , "/fail"
+              , "MGPay"
+            ).runStore(data);
+        });
 
-    document.getElementById("btnExec3").addEventListener("click",function() {
-        var data = "cmd=move_to&id=web&url=/mquics?page=C052213";
-        AppChecker.init(
-            "kbbank"
-          , "call"
-          , "com.kbstar.kbbank"
-          , "market://details?id="+"com.kbstar.kbbank"+"&hl=ko&rdid="+"com.kbstar.kbbank"
-          , "https://itunes.apple.com/kr/app/kbseutabaengking/id373742138?mt=8"
-          , "/fail"
-          , "MGPay"
-        ).runApp(true,data);
-    });
+        document.getElementById("btnExec3").addEventListener("click",function() {
+            var data = "cmd=move_to&id=web&url=/mquics?page=C052213";
+            AppChecker.init(
+                "kbbank"
+              , "call"
+              , "com.kbstar.kbbank"
+              , "market://details?id="+"com.kbstar.kbbank"+"&hl=ko&rdid="+"com.kbstar.kbbank"
+              , "https://itunes.apple.com/kr/app/kbseutabaengking/id373742138?mt=8"
+              , "/fail"
+              , "MGPay"
+            ).runApp(data);
+        });
 
-    document.getElementById("btnExec4").addEventListener("click",function() {
-        var data = "cmd=move_to&id=web&url=/mquics?page=C052213";
-        AppChecker.init(
-            "kbbank"
-          , "call"
-          , "com.kbstar.kbbank"
-          , "market://details?id="+"com.kbstar.kbbank"+"&hl=ko&rdid="+"com.kbstar.kbbank"
-          , "https://itunes.apple.com/kr/app/kbseutabaengking/id373742138?mt=8"
-          , "/fail"
-          , "MGPay"
-        ).runApp(false,data);
-    });
-}
+        document.getElementById("btnExec4").addEventListener("click",function() {
+            var data = "cmd=move_to&id=web&url=/mquics?page=C052213";
+            AppChecker.init(
+                "kbbank"
+              , "call"
+              , "com.kbstar.kbbank"
+              , "market://details?id="+"com.kbstar.kbbank"+"&hl=ko&rdid="+"com.kbstar.kbbank"
+              , "https://itunes.apple.com/kr/app/kbseutabaengking/id373742138?mt=8"
+              , "/fail"
+              , "MGPay"
+            ).runStore(data);
+        });
+    }
 </script>
-<button id="btnExec1">실행</button>
-<button id="btnExec2">스토어</button>
+<button id="btnExec1">실행1</button>
+<button id="btnExec2">스토어1</button>
 <br/>
-<button id="btnExec3">실행</button>
-<button id="btnExec4">스토어</button>
+<button id="btnExec3">실행2</button>
+<button id="btnExec4">스토어2</button>
 ```

@@ -21,7 +21,7 @@
 *       , "/ib20/mnu/HKMCOM050000"
 *       , "MGPay"
 *     );
-* 
+*
 *     AppChecker.init(
 *         "hancapMobile"
 *       , "hancap"
@@ -35,14 +35,13 @@
 * //        alert('test');
 *         AppChecker.runApp(true,"http://www.naver.com");
 *     });
-* 
+*
 *     document.getElementById("btnExec2").addEventListener("click",function() {
 * //        alert('test');
 *         AppChecker.runApp(false,"http://www.naver.com");
 *     });
 * }
 **/
-
 var AppChecker = {
     urlSchemeName:null,
     urlHostName:null,
@@ -59,6 +58,7 @@ var AppChecker = {
         this.appleMarketUrl  = appleMarketUrl ;
         this.fallbackUrl     = fallbackUrl    ;
         this.appUserAgent    = appUserAgent   ;
+        return this;
     },
     getAppType:function() {
         var phoneOS = "";
@@ -67,8 +67,8 @@ var AppChecker = {
             var re = new RegExp(this.appUserAgent, 'i');
             if((agent.match(re))){
                 if(agent.match(/IOS/i) || agent.match(/iPhone/i)){	// iOS
-                    phoneOS = "I";	
-                }				
+                    phoneOS = "I";
+                }
                 else if(agent.match(/ANDROID/i)){	// Android
                     phoneOS = "A";
                 }
@@ -83,12 +83,12 @@ var AppChecker = {
                 } else if( agent.match(/BlackBerry/i) ||
                    agent.match(/Windows CE/i) || agent.match(/SAMSUNG/i) ||
                    agent.match(/LG/i) || agent.match(/MOT/i) ||
-                   agent.match(/SonyEricsson/i)){	
-                    phoneOS = "M";	
+                   agent.match(/SonyEricsson/i)){
+                    phoneOS = "M";
                 }else{
                     phoneOS = "X";
                 }
-                
+
             }
         }
         return phoneOS;
@@ -196,7 +196,7 @@ var AppChecker = {
                  * 빈화면이(blank) 뜨는 오류가 발생함 이를 해결 하기 위해 location.href가 아닌 window.open 함수 사용
                  * **/
                 //window.open(intentURI);
-                
+
                 setTimeout(function() {
 //                    alert(intentURI);
                     location.href = intentURI;
